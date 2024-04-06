@@ -1,0 +1,45 @@
+* {
+    padding: 0px;
+    margin: 0px;
+    box-sizing: border-box;
+}
+
+main {
+    width: 500px;
+    margin: 15px auto;
+}
+
+/* Input Panel */
+
+.input-panel {
+    width: 100%;
+}
+#to-do {
+    width: 80%;
+    height: 23px;
+    padding: 5px;
+}
+.button{
+    width: 19%;
+    height: 23px;
+}
+
+/* To Do List */
+h2 {
+    margin-top: 15px;
+}
+.start-massage {
+    margin: 10px 0;
+    font-size: 18px;
+}
+
+.to-do-list li {
+    border: 1px solid black;
+    padding: 5px;
+    margin: 5px 0;
+    list-style-type: none;
+}
+
+.to-do-list li #task {
+    margin: 5px;
+}
