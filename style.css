@@ -19,7 +19,7 @@ main {
     height: 23px;
     padding: 5px;
 }
-.button{
+.addTaskBtn{
     width: 19%;
     height: 23px;
 }
@@ -40,6 +40,21 @@ h2 {
     list-style-type: none;
 }
 
-.to-do-list li #task {
+.checked {
+    background-color: rgb(0, 255, 0);
+    text-decoration: line-through;
+}
+
+.to-do-list li input {
     margin: 5px;
+}
+
+.to-do-list li label {
+    user-select: none;
+}
+
+.to-do-list .deleteTaskBtn {
+    float: right;
+    padding: 2px 4px;
+    user-select: none;
 }
