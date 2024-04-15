@@ -1,48 +1,74 @@
 class ToDo {
-    static counter = 0;
+    static counter = ToDo.counter || 0;
 
-    constructor(text) {
+    constructor(text, checked = false) {
         this.text = text;
+        this.checked = checked;
     }
 
     addTask() {
-        ToDo.counter++;
-        let task = 'task' + ' ' + ToDo.counter;
-        let toDoList = document.querySelector(".list");
-        let li = document.createElement('li');
-        li.addEventListener('click', (event) => {
-            event.stopPropagation();
-            li.classList.toggle('checked');
-            checkbox.checked = !checkbox.checked;
-        })
+        let obj = {}
+        obj.id = ToDo.counter;
+        let task = 'task' + ' ' + ToDo.counter;   // создание task с динамическим id
 
-        let checkbox = document.createElement("input");
+        let toDoList = document.querySelector(".list");  // поиск ul
+        let li = document.createElement('li');      // создание li
+        li.dataset.taskId = task;
+        li.addEventListener('click', (event) => {    // создание события по клику на li
+            event.stopPropagation();
+            if (!event.target.matches('.deleteTaskBtn')) {
+                li.classList.toggle('checked');
+                checkbox.checked = !checkbox.checked;
+        
+                obj.checked = checkbox.checked;
+                localStorage.setItem(task, JSON.stringify(obj));
+            }
+        });
+
+
+        let checkbox = document.createElement("input");   // создание чекбокса
         checkbox.type = 'checkbox';
         checkbox.id = task;
-        checkbox.addEventListener('change', () => {
+        if (this.checked) {  // для сохранения состояния галочки после перезагрузки страницы
+            li.classList.toggle('checked');
+            checkbox.checked = true;
+        }
+        checkbox.addEventListener('change', (event) => { // добавление переключение чекбокса
             if (checkbox.checked) {
                 checkbox.checked = false;
             } else {
                 checkbox.checked = true;
             }
+            
+            obj.checked = checkbox.checked;
+            localStorage.setItem(task, JSON.stringify(obj));
         });
 
-        let label = document.createElement("label");
+
+        let label = document.createElement("label");   // создание текста в инпут поле
         label.textContent = this.text;
-        label.setAttribute('for', task);
+        label.setAttribute('for', task);    // связывание инпут поля с чекбоксом
         label.addEventListener('click', (event) => {
             event.stopPropagation();
-        })
+        });
 
-        let btn = document.createElement("button");
+
+        let btn = document.createElement("button");    // создание крестика для удаления таски
         btn.className = 'deleteTaskBtn';
         btn.textContent = 'X';
         btn.addEventListener("click", deleteTaskHandler);
+
 
         li.append(checkbox);
         li.append(label);
         li.append(btn);
         toDoList.append(li);
+
+        obj.text = this.text;
+        if (!localStorage.getItem(task)) {
+            localStorage.setItem(task, JSON.stringify(obj));
+        }
+        ToDo.counter++;
     }
 }
 
@@ -52,6 +78,26 @@ let inputField = document.querySelector("#to-do");
 let deleteTaskBtn = document.querySelectorAll(".deleteTaskBtn");
 
 addTaskBtn.addEventListener('click', addTaskHandler);
+
+document.addEventListener('DOMContentLoaded', () => {
+    for (let key in localStorage) {
+        if (!localStorage.hasOwnProperty(key)) {
+            continue;
+        }
+        if (key) {
+            if (!startMassage.hidden) startMassage.hidden = true; // прятать стандартный текст
+
+            let json = localStorage.getItem(key);
+            let obj = JSON.parse(json);
+            let text = obj.text;
+            let checked = obj.checked;
+            ToDo.counter = obj.id;
+            
+            let toDo = new ToDo(text, checked);  // создание экземляра класса
+            toDo.addTask(); // вызов метода класса с отрисовкой на страницу
+        }
+    }
+});
 
 inputField.addEventListener('keydown', (e) => { // Добавление задач на Enter
     if (e.code == 'Enter') addTaskHandler();
@@ -70,7 +116,9 @@ function addTaskHandler() { // Кнопка добавления задач
     }
 }
 
-function deleteTaskHandler(e) { // Кнопка удаления задач
+function deleteTaskHandler() { // Кнопка удаления задач
+    let taskId = this.parentNode.dataset.taskId; // Получаем атрибут data-task-id
+    localStorage.removeItem(taskId);  // Удаляем задачу из localStorage
     this.parentNode.remove();
     ToDo.counter--;
     if (ToDo.counter == 0) startMassage.hidden = false;
