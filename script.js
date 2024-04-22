@@ -27,6 +27,7 @@ class ToDo {
 
 
         let checkbox = document.createElement("input");   // создание чекбокса
+        checkbox.className = 'checkbox';
         checkbox.type = 'checkbox';
         checkbox.id = task;
         if (this.checked) {  // для сохранения состояния галочки после перезагрузки страницы
@@ -55,13 +56,18 @@ class ToDo {
 
         let btn = document.createElement("button");    // создание крестика для удаления таски
         btn.className = 'deleteTaskBtn';
-        btn.textContent = 'X';
         btn.addEventListener("click", deleteTaskHandler);
+
+
+        let btnChangeTask = document.createElement('button'); // создание изменения задачи
+        btnChangeTask.className = 'changeTaskBtn';
+        btnChangeTask.addEventListener('click', changeTaskHandler);
 
 
         li.append(checkbox);
         li.append(label);
         li.append(btn);
+        li.append(btnChangeTask);
         toDoList.append(li);
 
         obj.text = this.text;
@@ -113,6 +119,23 @@ function addTaskHandler() { // Кнопка добавления задач
         inputField.value = '';
     } else {
         alert("Сначала введите текст задачи.");
+    }
+}
+
+function changeTaskHandler(event) {
+    event.stopPropagation();
+    let li = this.parentNode;
+    let label = li.querySelector('label');
+    let currentText = label.textContent;
+    
+    let newText = prompt("Введите новый текст задачи:", currentText);
+    if (newText !== null) {
+        label.textContent = newText;
+
+        let taskId = li.dataset.taskId;
+        let obj = JSON.parse(localStorage.getItem(taskId));
+        obj.text = newText;
+        localStorage.setItem(taskId, JSON.stringify(obj));
     }
 }
 

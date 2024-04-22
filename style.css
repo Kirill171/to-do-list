@@ -26,6 +26,13 @@ button:hover {
 .addTaskBtn{
     width: 19%;
     height: 23px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #4CAF50;
+    color: white;
+}
+.addTaskBtn:hover {
+    background-color: #45a049;
 }
 
 /* To Do List */
@@ -35,6 +42,7 @@ h2 {
 .start-massage {
     margin: 10px 0;
     font-size: 18px;
+    color: #333;
 }
 
 .to-do-list li {
@@ -44,8 +52,8 @@ h2 {
     list-style-type: none;
 }
 
-.checked {
-    background-color: rgb(0, 255, 0);
+.to-do-list .checked {
+    background-color: #a8d9b2;
     text-decoration: line-through;
 }
 
@@ -55,10 +63,49 @@ h2 {
 
 .to-do-list li label {
     user-select: none;
+    vertical-align: middle;
 }
 
-.to-do-list .deleteTaskBtn {
+.to-do-list .changeTaskBtn {
+    background-image: url('./image/pen.png');
+    background-size: contain;
+    width: 23px;
+    height: 23px;
     float: right;
     padding: 2px 4px;
     user-select: none;
+    border: none;
+    margin-right: 5px;
+    background-color: transparent;
+}
+
+.to-do-list .deleteTaskBtn {
+    background-image: url('./image/cross.png');
+    background-size: contain;
+    width: 23px;
+    height: 23px;
+    float: right;
+    padding: 2px 4px;
+    user-select: none;
+    border: none;
+    background-color: transparent;
+}
+
+.checkbox {
+    display: none;
+}
+
+.checkbox + label {
+    display: inline-block;
+    width: 23px;
+    height: 23px;
+    background-image: url('./image/checkMark.png');
+    background-size: cover;
+    cursor: pointer;
+    padding-left: 25px;
+    line-height: 25px; /* Выравнивание текста по вертикали */
+}
+
+.checkbox:checked + label {
+    background-image: url('./image/chekedMark.png');
 }
