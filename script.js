@@ -1,9 +1,10 @@
 class ToDo {
     static counter = ToDo.counter || 0;
 
-    constructor(text, checked = false) {
+    constructor(text, checked = false, time) {
         this.text = text;
         this.checked = checked;
+        this.time = time
     }
 
     addTask() {
@@ -53,25 +54,28 @@ class ToDo {
             event.stopPropagation();
         });
 
-
+        let abbr = document.createElement('abbr');
+        abbr.title = this.time || new Date();
+        
+        let btnChangeTask = document.createElement('button'); // создание изменения задачи
+        btnChangeTask.className = 'changeTaskBtn';
+        btnChangeTask.addEventListener('click', changeTaskHandler);
+        
         let btn = document.createElement("button");    // создание крестика для удаления таски
         btn.className = 'deleteTaskBtn';
         btn.addEventListener("click", deleteTaskHandler);
 
-
-        let btnChangeTask = document.createElement('button'); // создание изменения задачи
-        btnChangeTask.className = 'changeTaskBtn';
-        btnChangeTask.addEventListener('click', changeTaskHandler);
-
-
         li.append(checkbox);
         li.append(label);
-        li.append(btn);
+        li.append(abbr);
         li.append(btnChangeTask);
+        li.append(btn);
+        
         toDoList.append(li);
 
         obj.text = this.text;
         if (!localStorage.getItem(task)) {
+            obj.time = abbr.title;
             localStorage.setItem(task, JSON.stringify(obj));
         }
         ToDo.counter++;
@@ -97,9 +101,10 @@ document.addEventListener('DOMContentLoaded', () => {
             let obj = JSON.parse(json);
             let text = obj.text;
             let checked = obj.checked;
+            let time = obj.time;
             ToDo.counter = obj.id;
             
-            let toDo = new ToDo(text, checked);  // создание экземляра класса
+            let toDo = new ToDo(text, checked, time);  // создание экземляра класса
             toDo.addTask(); // вызов метода класса с отрисовкой на страницу
         }
     }

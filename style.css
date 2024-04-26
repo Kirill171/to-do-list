@@ -50,6 +50,8 @@ h2 {
     padding: 5px;
     margin: 5px 0;
     list-style-type: none;
+    display: flex;
+    justify-content: end;
 }
 
 .to-do-list .checked {
@@ -64,6 +66,18 @@ h2 {
 .to-do-list li label {
     user-select: none;
     vertical-align: middle;
+    margin-right: auto;
+}
+
+.to-do-list abbr {
+    background-image: url('./image/clock.png');
+    background-size: contain;
+    width: 23px;
+    height: 23px;
+    padding: 2px 4px;
+    border: none;
+    margin-right: 5px;
+    background-color: transparent;
 }
 
 .to-do-list .changeTaskBtn {
@@ -71,7 +85,6 @@ h2 {
     background-size: contain;
     width: 23px;
     height: 23px;
-    float: right;
     padding: 2px 4px;
     user-select: none;
     border: none;
@@ -84,7 +97,6 @@ h2 {
     background-size: contain;
     width: 23px;
     height: 23px;
-    float: right;
     padding: 2px 4px;
     user-select: none;
     border: none;
